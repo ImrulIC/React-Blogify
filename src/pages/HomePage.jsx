@@ -1,14 +1,18 @@
 import React from "react";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
-import HomePageContent from "../components/posts/HomePageContent";
+import PostList from "../components/posts/PostList";
+import Sidebar from "../components/posts/Sidebar";
 
 export default function HomePage() {
   return (
-    <>
-      <Header />
-      <HomePageContent />
-      <Footer />
-    </>
+    <main>
+      <section>
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+            <PostList />
+            <Sidebar />
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -1,9 +1,9 @@
 import { useContext, useReducer } from "react";
 import { PostContext } from "../context";
-import { PostReducer, initialState } from "../reducers/PostReducer";
+import { PostInitialState, PostReducer } from "../reducers/PostReducer";
 
 const PostProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(PostReducer, initialState);
+  const [state, dispatch] = useReducer(PostReducer, PostInitialState);
 
   return (
     <PostContext.Provider value={{ state, dispatch }}>

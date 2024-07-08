@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EditIcon from "../../assets/icons/edit.svg";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import DotsIcon from "../../assets/icons/3dots.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getDateDifferenceFromNow } from "../../utils";
 
 export default function BlogCard({ postData }) {
   const [showOptions, setShowOptions] = useState(false);
-  const toggleShowOptions = () => {
-    setShowOptions(!showOptions);
-  };
+  const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   const {
     author,
@@ -21,11 +21,35 @@ export default function BlogCard({ postData }) {
     thumbnail,
     title,
   } = postData;
-  console.log(postData);
+
+  const redirectToBlog = (index) => {
+    navigate("/blogs", { state: { index: id } });
+  };
+
+  const toggleShowOptions = () => {
+    setShowOptions(!showOptions);
+  };
+
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      setShowOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showOptions) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showOptions]);
 
   return (
-    <div className="blog-card">
+    <div className="blog-card" ref={modalRef}>
       <img
+        onClick={(id) => redirectToBlog()}
         className="blog-thumb"
         src={`${
           import.meta.env.VITE_SERVER_BASE_URL
@@ -33,11 +57,12 @@ export default function BlogCard({ postData }) {
         alt=""
       />
       <div className="mt-2 relative">
-        <Link href="./single-blog.html">
-          <h3 className="text-slate-300 text-xl lg:text-2xl">
-            <Link href="./single-blog.html">{title}</Link>
-          </h3>
-        </Link>
+        <h3
+          onClick={(id) => redirectToBlog()}
+          className="text-slate-300 text-xl lg:text-2xl"
+        >
+          {title}
+        </h3>
         <p className="mb-6 text-base text-slate-500 mt-1">{content}</p>
 
         {/* <!-- Meta Informations --> */}
@@ -54,7 +79,7 @@ export default function BlogCard({ postData }) {
                 </Link>
               </h5>
               <div className="flex items-center text-xs text-slate-700">
-                <span>{createdAt}</span>
+                <span>{getDateDifferenceFromNow(createdAt)}</span>
               </div>
             </div>
           </div>

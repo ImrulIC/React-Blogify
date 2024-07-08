@@ -1,7 +1,8 @@
 import { actions } from "../actions";
 
-const initialState = {
+const PostInitialState = {
   posts: [],
+  popular: [],
   loading: false,
   error: null,
 };
@@ -29,7 +30,14 @@ const PostReducer = (state, action) => {
         posts: [],
         error: action.error,
       };
+
+    case actions.post.DATA_FETCH_POPULAR:
+      return {
+        ...state,
+        loading: false,
+        popular: action.popular,
+      };
   }
 };
 
-export { initialState, PostReducer };
+export { PostInitialState, PostReducer };

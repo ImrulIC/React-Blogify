@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { actions } from "../../actions";
+import { usePost } from "../../hooks/usePost";
 import { api } from "../auth/api";
 import BlogCard from "./BlogCard";
-import { usePost } from "../../hooks/usePost";
-import { actions } from "../../actions";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function PostList() {
   const { state, dispatch } = usePost();
+  const { auth, setAuth } = useAuth();
 
   useEffect(() => {
     const fetchPost = async () => {

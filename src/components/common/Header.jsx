@@ -53,7 +53,7 @@ export default function Header() {
               </div>
 
               {/* <!-- Logged-in user's name --> */}
-              <Link to="/profile.html">
+              <Link to="/profile">
                 <span className="text-white ml-2">Saad Hasan</span>
               </Link>
               {/* <!-- Profile Image --> */}
